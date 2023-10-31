@@ -13,7 +13,7 @@ export default function MainLayout() {
   return (
     <div>
       {photos.length > 0 ? <HomeNav photos={photos} /> : <Navbar />}
-      <div className="  min-h-screen    flex max-h-full  max-w-full flex-nowrap justify-start bg-content1/[0.3] transition-[padding] duration-200 p-0">
+      <div className="   min-h-screen    flex max-h-full  max-w-full flex-nowrap justify-start bg-content1/[0.3] transition-[padding] duration-200 p-0">
         <SideBar />
 
         <div

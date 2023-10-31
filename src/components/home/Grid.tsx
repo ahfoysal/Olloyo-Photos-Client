@@ -1,19 +1,45 @@
-import { addPhoto, removePhoto } from '@/redux/features/photos/photosSlice';
+import {
+  addPhoto,
+  removePhoto,
+  resetPhotos,
+} from '@/redux/features/photos/photosSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { IPhotos } from '@/types/GlobalInterfaces';
 import { Checkbox } from '@nextui-org/react';
-import { CSSProperties, forwardRef, HTMLAttributes } from 'react';
-
+import {
+  CSSProperties,
+  forwardRef,
+  HTMLAttributes,
+  useRef,
+  useState,
+} from 'react';
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuShortcut,
+  ContextMenuTrigger,
+} from '../ui/context-menu';
+import { Eye, Trash2 } from 'lucide-react';
+import { PhotoProvider, PhotoSlider, PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
+import {
+  useDeletePhotosMutation,
+  useFetchPhotosQuery,
+} from '@/redux/features/photos/photosApi';
+import toast from 'react-hot-toast';
 type Props = {
   item: IPhotos;
   isOpacityEnabled?: boolean;
   isDragging?: boolean;
+  active?: number | 0;
   isFeatured?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
 const Item = forwardRef<HTMLDivElement, Props>(
   (
-    { item, isOpacityEnabled, isFeatured, isDragging, style, ...props },
+    { item, isOpacityEnabled, isFeatured, active, isDragging, style, ...props },
     ref
   ) => {
     const styles: CSSProperties = {
@@ -36,19 +62,46 @@ const Item = forwardRef<HTMLDivElement, Props>(
       }
     };
 
-    return (
-      <div
-        ref={ref}
-        style={styles}
-        {...props}
-        className={`border border-divider rounded-lg  group relative    ${
-          isFeatured ? 'col-span-2 row-span-2 ' : ''
+    const [deletePhotos] = useDeletePhotosMutation();
+    const handleDeletePhotos = async () => {
+      console.log(item);
+      await deletePhotos([item]);
+      toast.promise(
+        deletePhotos(item),
+        {
+          loading: 'Deleting....',
+          success: 'Deleted',
+          error: 'Error when deleting',
+        },
+        {
+          style: {
+            borderRadius: '4px',
+            background: '#333',
+            color: '#fff',
+          },
+          position: 'bottom-left',
+          duration: 3000,
         }
-           ${isDragging ? ' z-50 opacity-50' : ''}
-           `}
-      >
-        {!isOpacityEnabled && (
-          <div>
+      );
+      dispatch(resetPhotos());
+    };
+    const [visible, setVisible] = useState(false);
+    const [index, setIndex] = useState(active || 0);
+    const { data: fetchedData } = useFetchPhotosQuery('');
+    return (
+      <ContextMenu>
+        <ContextMenuTrigger
+          ref={ref}
+          style={styles}
+          {...props}
+          className={`border border-divider rounded-lg  group relative    ${
+            isFeatured ? 'col-span-2 row-span-2 ' : ''
+          }
+         ${isDragging ? ' z-50 opacity-50' : ''}
+         `}
+        >
+          {' '}
+          {!isOpacityEnabled && (
             <img
               src={item.url}
               alt={`${item.url}`}
@@ -70,20 +123,61 @@ const Item = forwardRef<HTMLDivElement, Props>(
                 objectFit: 'cover',
               }}
             />
+          )}
+          <div
+            className={`absolute top-3 left-3  ${
+              isExist ? '' : 'hidden group-hover:block'
+            }    `}
+          >
+            <Checkbox
+              onChange={handleCheckboxChange}
+              isSelected={isExist ? true : false}
+              color="danger"
+            />
           </div>
-        )}
-        <div
-          className={`absolute top-3 left-3  ${
-            isExist ? '' : 'hidden group-hover:block'
-          }    `}
-        >
-          <Checkbox
-            onChange={handleCheckboxChange}
-            isSelected={isExist ? true : false}
-            color="danger"
-          />
-        </div>
-      </div>
+        </ContextMenuTrigger>
+        <ContextMenuContent className="w-52">
+          <ContextMenuCheckboxItem
+            checked={isExist ? true : false}
+            onClick={() => {
+              if (!isExist) {
+                console.log('true');
+
+                dispatch(addPhoto(item));
+              } else {
+                console.log('false');
+
+                dispatch(removePhoto(item));
+              }
+            }}
+          >
+            Select
+          </ContextMenuCheckboxItem>
+          <ContextMenuItem inset onClick={() => setVisible(true)}>
+            Preview
+            <ContextMenuShortcut>
+              <Eye />
+            </ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem inset onClick={handleDeletePhotos}>
+            Delete
+            <ContextMenuShortcut>
+              <Trash2 />
+            </ContextMenuShortcut>
+          </ContextMenuItem>
+        </ContextMenuContent>
+
+        <PhotoSlider
+          images={fetchedData?.data?.map((item: IPhotos) => ({
+            src: item.url,
+            key: item.key,
+          }))}
+          visible={visible}
+          onClose={() => setVisible(false)}
+          index={index}
+          onIndexChange={setIndex}
+        />
+      </ContextMenu>
     );
   }
 );

@@ -96,6 +96,7 @@ export default function Home() {
                 key={item.id}
                 isFeatured={index === 0}
                 item={item}
+                index={index}
               />
             ))}
             <AddImage />

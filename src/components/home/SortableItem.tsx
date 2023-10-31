@@ -7,6 +7,7 @@ import { IPhotos } from '@/types/GlobalInterfaces';
 type Props = {
   item: IPhotos;
   isFeatured: boolean;
+  index: number;
 } & HTMLAttributes<HTMLDivElement>;
 
 const SortableItem = ({ item, ...props }: Props) => {
@@ -16,6 +17,7 @@ const SortableItem = ({ item, ...props }: Props) => {
     listeners,
     setNodeRef,
     transform,
+    index,
     transition,
   } = useSortable({
     id: item.id,
@@ -29,6 +31,7 @@ const SortableItem = ({ item, ...props }: Props) => {
   return (
     <Grid
       item={item}
+      active={index}
       ref={setNodeRef}
       style={styles}
       isOpacityEnabled={isDragging}

@@ -2,6 +2,7 @@ import { PopoverAuth } from '@/components/AuthPopover';
 import UserPopover from '@/components/UserPopover';
 import UploadedToast from '@/components/toast/Uploaded';
 import Uploading from '@/components/toast/Uploading';
+import { ModeToggle } from '@/components/ui/ModeToggle';
 import { useUploadPhotoMutation } from '@/redux/features/photos/photosApi';
 import { imageUpload } from '@/utils/Cloudinary';
 import {
@@ -68,6 +69,9 @@ const Header = () => {
   return (
     <Navbar shouldHideOnScroll isBordered maxWidth="full">
       <NavbarContent justify="end">
+        <NavbarItem>
+          <ModeToggle />
+        </NavbarItem>
         <NavbarItem>
           <Tooltip content="upload photos">
             <Button

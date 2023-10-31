@@ -54,6 +54,7 @@ const HomeNav: React.FC<HomeNavProps> = ({ photos }) => {
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
+      dispatch(resetPhotos());
       dispatch(addPhoto(allPhotos));
     } else {
       dispatch(removePhoto(allPhotos));

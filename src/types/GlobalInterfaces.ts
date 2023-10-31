@@ -3,4 +3,5 @@ export type IPhotos = {
   name?: string;
   _id: string;
   id: string;
+  key: string;
 };
