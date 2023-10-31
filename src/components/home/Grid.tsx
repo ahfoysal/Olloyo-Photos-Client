@@ -6,13 +6,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { IPhotos } from '@/types/GlobalInterfaces';
 import { Checkbox } from '@nextui-org/react';
-import {
-  CSSProperties,
-  forwardRef,
-  HTMLAttributes,
-  useRef,
-  useState,
-} from 'react';
+import { CSSProperties, forwardRef, HTMLAttributes, useState } from 'react';
 import {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -22,7 +16,7 @@ import {
   ContextMenuTrigger,
 } from '../ui/context-menu';
 import { Eye, Trash2 } from 'lucide-react';
-import { PhotoProvider, PhotoSlider, PhotoView } from 'react-photo-view';
+import { PhotoSlider } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 import {
   useDeletePhotosMutation,
