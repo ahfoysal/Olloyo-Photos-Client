@@ -12,14 +12,14 @@ import { IPhotos } from '@/types/GlobalInterfaces';
 import { Button, Checkbox, Navbar, NavbarContent } from '@nextui-org/react';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { DeletePopover } from '../DeletePopover';
+import { DeletePopover } from '../components/DeletePopover';
 import toast from 'react-hot-toast';
 
 interface HomeNavProps {
   photos: IPhotos[];
 }
 
-const HomeNav: React.FC<HomeNavProps> = ({ photos }) => {
+const ActionNav: React.FC<HomeNavProps> = ({ photos }) => {
   const [allPhotos, setAllPhotos] = useState<IPhotos[]>([]);
 
   const dispatch = useAppDispatch();
@@ -90,4 +90,4 @@ const HomeNav: React.FC<HomeNavProps> = ({ photos }) => {
   );
 };
 
-export default HomeNav;
+export default ActionNav;

@@ -3,8 +3,8 @@ import { tv } from 'tailwind-variants';
 import { UseSettings } from '@/hooks/useLocalStorage';
 import SideBar from '@/components/Shared/SIdeBar';
 import Navbar from './Navbar';
-import HomeNav from '@/components/home/HomeNav';
 import { useAppSelector } from '@/redux/hook';
+import ActionNav from './ActionNav';
 
 export default function MainLayout() {
   const { sidebarMiniMode, sidebarBoxedMode } = UseSettings();
@@ -12,7 +12,7 @@ export default function MainLayout() {
 
   return (
     <div>
-      {photos.length > 0 ? <HomeNav photos={photos} /> : <Navbar />}
+      {photos.length > 0 ? <ActionNav photos={photos} /> : <Navbar />}
       <div className="   min-h-screen    flex max-h-full  max-w-full flex-nowrap justify-start bg-content1/[0.3] transition-[padding] duration-200 p-0">
         <SideBar />
 
