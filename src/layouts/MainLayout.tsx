@@ -54,7 +54,7 @@ const contentAreaStyles = tv({
       mini: false,
       boxed: false,
       hideSidebar: false,
-      class: 'sm:ml-[180px] sm:!rounded-tl-medium sm:border-l sm:border-t',
+      class: 'sm:ml-[200px] sm:!rounded-tl-medium sm:border-l ',
     },
     {
       boxed: true,

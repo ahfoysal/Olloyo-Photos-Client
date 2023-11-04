@@ -15,12 +15,14 @@ const UploadedToast: React.FC<UploadingProps> = ({ item, selectedFile }) => {
       } max-w-xs border-divider p-2 w-full bg-secondary shadow-lg rounded-lg pointer-events-auto flex flex-col ring-1 ring-black ring-opacity-5`}
     >
       <div className=" mt-3  w-full flex-1  flex justify-between">
-        <p className="text-sm text-gray-500 ">1 Item Uploaded </p>
+        <p className="text-sm dark:text-gray-100 text-gray-500 ">
+          1 Item Uploaded{' '}
+        </p>
         <Button
           size="sm"
           variant="flat"
           onClick={() => toast.dismiss(item.id)}
-          className="flex justify-end"
+          className="flex justify-en bg-transparent"
         >
           <X />
         </Button>

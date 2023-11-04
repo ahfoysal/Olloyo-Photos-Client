@@ -15,6 +15,7 @@ import {
 import { Upload } from 'lucide-react';
 import { useRef } from 'react';
 import toast from 'react-hot-toast';
+import { NavLink } from 'react-router-dom';
 
 const Header = () => {
   const user = false;
@@ -51,12 +52,17 @@ const Header = () => {
           {
             position: 'bottom-left',
             duration: 2000,
+            id: selectedFile.size.toString(),
           }
         );
 
         console.log(body);
         if (isSuccess) {
           console.log(data);
+
+          setTimeout(function () {
+            toast.dismiss(selectedFile.size.toString());
+          }, 5000);
         }
         if (isError) {
           console.log(error);
@@ -67,9 +73,20 @@ const Header = () => {
     }
   };
   return (
-    <Navbar shouldHideOnScroll isBordered maxWidth="full">
+    <Navbar isBordered maxWidth="full">
+      <NavbarContent justify="start" className="sm:hidden">
+        <NavLink
+          to="/"
+          arial-label="home-page"
+          className="flex gap-2 bg-gradient-to-tr from-secondary to-primary to-50% bg-clip-text text-xl 
+              font-medium  "
+        >
+          <img className="h-8 w-8" src="/logo.svg" alt="" />
+          <p>Photos</p>
+        </NavLink>
+      </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem>
+        <NavbarItem className="hidden sm:block">
           <ModeToggle />
         </NavbarItem>
         <NavbarItem>
@@ -86,11 +103,25 @@ const Header = () => {
               }
               fullWidth
               variant="solid"
-              className="  rounded-xl py-1 px-4 "
+              className=" sm:flex hidden  rounded-xl py-1 px-4 "
             >
               Upload
             </Button>
           </Tooltip>
+          <Button
+            onClick={handleButtonClick}
+            fullWidth
+            isIconOnly
+            variant="solid"
+            className="flex  sm:hidden  rounded-xl  "
+          >
+            <Upload
+              size={16}
+              className={
+                'group-data-[hover=true]:translate-x-0.5 outline-none transition-transform '
+              }
+            />
+          </Button>
           <input
             type="file"
             ref={fileInputRef}

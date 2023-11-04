@@ -21,12 +21,16 @@ import { useEffect, useState } from 'react';
 import SortableItem from '@/components/home/SortableItem';
 import AddImage from '@/components/home/AddImage';
 import PhotoSkeleton from '@/components/home/Skeleton';
+import PreviewPhotoContainer from '@/components/home/PreviewPhotoContainer';
 
 export default function Home() {
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
 
   const [photos, setPhotos] = useState<IPhotos[]>([]);
   const [activeItem, setActiveItem] = useState<IPhotos>();
+  const [visible, setVisible] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [isDraggingOn, setIsDraggingOn] = useState(false);
 
   const {
     data,
@@ -50,10 +54,10 @@ export default function Home() {
   }
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event;
+
     setActiveItem(photos.find((item: IPhotos) => item.id === active.id));
   };
 
-  // triggered when dragging ends
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
@@ -81,7 +85,7 @@ export default function Home() {
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="max-w-7xl w-[95%] mx-auto">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -97,6 +101,10 @@ export default function Home() {
                 isFeatured={index === 0}
                 item={item}
                 index={index}
+                setVisible={setVisible}
+                setIndex={setIndex}
+                setIsDraggingOn={setIsDraggingOn}
+                isDraggingOn={isDraggingOn}
               />
             ))}
             <AddImage />
@@ -104,9 +112,24 @@ export default function Home() {
         </SortableContext>
         <DragOverlay adjustScale style={{ transformOrigin: '0 0 ' }}>
           {activeItem ? (
-            <Grid isFeatured={false} item={activeItem} isDragging />
+            <Grid
+              item={activeItem}
+              isFeatured={false}
+              isDragging
+              setVisible={setVisible}
+              setIndex={setIndex}
+              setIsDraggingOn={setIsDraggingOn}
+              active={0}
+              isDraggingOn={isDraggingOn}
+            />
           ) : null}
         </DragOverlay>
+        <PreviewPhotoContainer
+          index={index}
+          setVisible={setVisible}
+          visible={visible}
+          setIndex={setIndex}
+        />
       </DndContext>
     </div>
   );

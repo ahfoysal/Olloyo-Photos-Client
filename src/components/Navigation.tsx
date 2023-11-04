@@ -23,7 +23,7 @@ export function NavigationBrowse() {
     isDisabled: !sidebarHoverMode.value,
   });
   const navigationItemWidthStyle =
-    sidebarMiniMode.value && !isHovered ? 'w-[56px]' : 'w-[150px]';
+    sidebarMiniMode.value && !isHovered ? 'w-[56px]' : 'w-[160px]';
 
   return (
     <aside
@@ -40,7 +40,7 @@ export function NavigationBrowse() {
             sidebarMiniMode.value && !isHovered
               ? 'basis-[50px]'
               : 'basis-[60px]'
-          } flex shrink-0 grow-0 justify-center`}
+          } ml-4 flex shrink-0 grow-0 justify-center`}
           isIconOnly
           variant="light"
           onPress={() => {
@@ -49,19 +49,18 @@ export function NavigationBrowse() {
         >
           <Menu />
         </Button>
-        {sidebarMiniMode.value && !isHovered ? null : (
-          <div className="flex items-center gap-x-3">
-            <NavLink
-              to="/"
-              arial-label="home-page"
-              className="flex gap-2 bg-gradient-to-tr from-secondary to-primary to-50% bg-clip-text text-xl 
+
+        <div className="flex items-center gap-x-3">
+          <NavLink
+            to="/"
+            arial-label="home-page"
+            className="flex gap-2 bg-gradient-to-tr from-secondary to-primary to-50% bg-clip-text text-xl 
               font-medium  "
-            >
-              <img className="h-8 w-8" src="/logo.svg" alt="" />
-              <p>Photos</p>
-            </NavLink>
-          </div>
-        )}
+          >
+            <img className="h-8 w-8" src="/logo.svg" alt="" />
+            <p>Photos</p>
+          </NavLink>
+        </div>
       </div>
       <NavigationMenu
         orientation="vertical"

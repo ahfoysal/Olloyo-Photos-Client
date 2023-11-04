@@ -23,13 +23,13 @@ const UploadingToast: React.FC<UploadingProps> = ({ item, selectedFile }) => {
           </div>
           <div className="ml-3 flex-1">
             <p className="text-sm text-gray-500  ">Uploading to</p>
-            <p className="mt-1 text-base font-medium text-gray-900">
+            <p className="mt-1 text-base font-medium dark:text-white text-gray-900">
               Ollyo Photos
             </p>
           </div>
         </div>
       </div>
-      <div className="flex border-l border-gray-200">
+      <div className="flex border-l border-divider">
         <button
           onClick={() => toast.dismiss(item.id)}
           className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-red-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
